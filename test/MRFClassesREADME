@@ -1,0 +1,13 @@
+
+
+@ug               
+|
+|
+|________ @gmrf
+|            |_ @node<--- @gk
+|
+|
+|________ @pmrf
+             |_ @node<--- @particles
+
+@gk.findedgepots    Returns the edge potentials of a GMRF given the joint covariance matrix and the edge set
