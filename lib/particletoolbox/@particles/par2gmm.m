@@ -1,0 +1,104 @@
+function g_ = par2gmm(p, varargin)
+% g = particles.par2gmm returns the gaussian mixture where each component
+% is identified by the labels accompanying particle states
+% g = particles.par2gmm(p,'blabels') identifies the components using the
+% birthlabels
+
+islabel = 1;
+
+nvarargin = length(varargin);
+argnum = 1;
+while argnum<=nvarargin
+    if isa( varargin{argnum} , 'char')
+        switch lower(varargin{argnum})
+            case {'blabels'}
+                islabel = 0;
+            case {''}
+                
+                
+            otherwise
+                error('Wrong input string');
+        end
+    elseif isa( varargin{argnum} , 'numeric')
+        
+    end
+    argnum = argnum + 1;
+end
+
+
+% First get the label array
+if islabel
+    labs = p.labels;
+else
+    labs = p.blabels(1,:);
+end
+% first, find the cluster names
+
+ulabels = unique( labs,'legacy' );
+nzind = find( ulabels~= 0 ) ;
+[nonzerolabels ]= ulabels( nzind );
+
+zerolabels = find( labs == 0 );
+ 
+myeps = 1.0e-8;
+ndims = size(p.states,1);
+
+numcomps = length( nonzerolabels );
+
+numzerocomps = length( zerolabels );
+    
+j = 1;
+if ~isempty( nonzerolabels )
+    
+    for i=1:numcomps
+        ind_ = find( labs == nonzerolabels( i ) );
+        mean_ = mean( p.states(:, ind_ ) ,2 );
+        
+        if size( p.states(:,ind_), 2) == 1
+            pccov_ = myeps*eye(ndims);
+        else
+            ws =  p.weights(ind_);
+            
+            
+            cov_ = wcov( p.states(:, ind_ ), ws);
+            
+            if ~isempty(find(isnan(cov_)==1))||~isempty(find(isinf(cov_)==1))
+                ws = ws + 0.001;
+                ws = ws/sum(ws);
+                cov_ = wcov( p.states(:, ind_ ), ws);
+            end
+            % Condition cov_
+            [V,D] = eig( cov_ );
+            
+            svals = diag(D);
+            svals( find( svals < myeps ) ) = myeps;
+            
+            ccov_ = V*diag(svals)*V';
+            pccov_ = (ccov_ + ccov_')/2;
+            
+        end
+        gks(j) = cpdf( gk(pccov_, mean_ ) );
+        weights_(j) = sum(p.weights(ind_));
+        j=j+1;
+    end
+end
+if ~isempty( zerolabels )
+
+    for i=1:numzerocomps
+        pccov_ = diag( diag( p.C( :,:, zerolabels(i)  ) ) );
+        covM(:,:,i) = pccov_;
+    end
+    tweight = sum(p.weights( zerolabels ));
+    [x_new,P_new,w_new]= gaus_merge( p.states( :, zerolabels ) , covM , ...
+        p.weights( zerolabels )/tweight , 3);
+    
+    for i=1:length(w_new)
+        gks(j) = cpdf( gk( P_new(:,:,i) , x_new(:,i) ) );
+        weights_(j) = w_new(i)*tweight;
+        j=j+1;
+    end
+    
+end
+
+
+g_ = gmm( weights_, gks );
