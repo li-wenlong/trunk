@@ -1,0 +1,34 @@
+
+
+
+scr_AR1MarkovChain_numeric.m : 
+This script is for a Markov process x_{1:t}
+and noisy measurements z_{1:t}
+
+
+scr_AR1MarkovChain_paramest_numeric.m :
+This script is for Gaussian parameter estimation in a state space model
+specified by a Markov process x_{1:t}
+noisy measurements z^i_{1:t}
+and noisy measurements z^j_{1:t} generated with noise mean as an unknown parameter \theta.
+
+i) Computes the KLD D(p||q)
+ii) Computes the bound with I() terms
+iii) 
+
+
+scr_AR1MarkovChain_testgkldcond.m:
+This script compares different ways of evaluating the conditional KLDs (of the parameter likelihood with respect to the approximate likelihood)
+
+
+scr_AR1MarkovChain_testpostkld.m:
+This script is to compare the (conditional) KLDs of the likelihoods and posteriors over time as more measurements are collected.
+
+scr_AR1MarkovChain_paramestquadterm_numeric.m 
+This script computes the bounds etc. for the QUADTERM approximation using the methods tested in the scripts above.
+
+scr_AR1MarkovChain_paramestdualterm_numeric.m
+This script computest the bounds etc. for the DUALTERM approximation.
+
+
+
