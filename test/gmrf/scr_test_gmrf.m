@@ -1,6 +1,10 @@
 % This script is to test the Gaussain Markov Random Field and Belief
 % Propagation on an Undirected Network.
 
+global DEBUG_GMRF DEBUG_GMRF_CARRAY DEBUG_VERBOSE
+DEBUG_GMRF = 1;
+DEBUG_VERBOSE = 1;
+
 defaultGMRF;
 defaultLikelihoods;
 
