@@ -1,0 +1,26 @@
+
+The probabilistic graphical models library can be tested as follows:
+
+Particle belief propagation with @pmrf (particle Markov Random Field)
+
+/test/pmrf/scr_test_pmrf_lbp.m  Test loopy belief propagation (BP) on a 4x4 grid pairwise Markov Random Field (MRF)
+/test/pmrf/scr_test_bpsch.m     Test loopy BP with predefined message schedule on the same MRF mode
+/test/pmrf/scr_test_bpsch_2.m   Use the predefined message schedule BP in an empirical initiation on the 4x4 model
+
+Gaussian BP with @gmrf (Gaussian Markov random field)
+/test/gmrf/scr_test_gmrf.m    Test BP on a tree GMRF
+/test/gmrf/scr_test_gmrf2.m   Test loopy BP on a GMRF
+
+Sensor self localisation with separable likelihoods
+
+Dual-term separable likelihood examples:
+/test/dualgmmphd/scr_test_dualgmmphd_selfloc_bpsch.m   Example of the Uney, Mulgrew, Clark, IEEE TSP 2016 article; sensor self-localisation using
+BP over a MRF model with separable (calibration) likelihoods as edge potentials
+/test/dualgmmphd/scr_test_dualgmmphd_selflocnorient_bpsch.m  Using the same separable likelihoods for self-localisation and orientation estimation
+
+Quad-term separable likelihood examples:
+/test/quadsinglegauss/scr_test_quadsinglegauss_selfloc_bpsch.m Test sensor self-localisation with quad-term separable likelihoods
+as edge potentials - Example of the Uney, Mulgrew, Clark ICASSP 2016 article 
+
+/test/quadmultigauss/scr_test_quadsinglegauss_selfloc_bpsch.m Sensor self-localistion with quad-term separable likelihood 
+as edge potentials in a multi-target sensing scenario - Example of the Uney, Mulgrew, Clark IEEE TSIPN 2018 article
